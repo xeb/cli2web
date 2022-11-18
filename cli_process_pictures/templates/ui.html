@@ -1,0 +1,47 @@
+<html>
+
+<head>
+    <title>{{ app_name }}</title>
+    <link rel="stylesheet" href="./static/site.css">
+</head>
+
+<body>
+    <h1>{{ app_name }}</h1>
+    <form action="/" method="POST">
+        <table>
+            <tr>
+                <th>Picture Folder Path:</th>
+                <td><input type="text" name="picture_folder_path"
+                        value="{% if request_form and 'picture_folder_path' in request_form %}{{request_form['picture_folder_path'][0]}}{% endif %}" />
+                </td>
+            </tr>
+            <tr>
+                <th>Days Back:</th>
+                <td><input type="text" name="days_back"
+                        value="{% if request_form and 'days_back' in request_form %}{{request_form['days_back'][0]}}{% else %}10{% endif %}" />
+                </td>
+            </tr>
+            <tr>
+                <th>Process Faces:</th>
+                <td>
+                    {% set process_faces_value = request_form and 'process_faces' in request_form and request_form['process_faces'][0] == 'true' %}
+                    <input type="radio" name="process_faces" value="true" {% if process_faces_value %}checked="checked"{% endif %}/>
+                    <label for="process_faces_true">Yes</label>
+                    <input type="radio" name="process_faces" value="false" {% if process_faces_value is none or process_faces_value is false or process_faces_value == null %}checked="checked"{% endif %} />
+                    <label for="process_faces_false">No</label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button>Submit</button>
+                </td>
+            </tr>
+        </table>
+        <h5>Result:</h5>
+        <pre>{{ result }}</pre>
+        <h5>Stdout (Print):</h5>
+        <pre>{{ stdout }}</pre>
+    </form>
+</body>
+
+</html>
